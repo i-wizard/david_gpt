@@ -4,21 +4,23 @@ import torch
 
 from neural_net import BigramLanguageModel
 from utils.encoders import Encoder
+from utils.constants import Constants
+from utils.helpers import Utils
 
 
 class Transformer:
     def __init__(self):
         self.training_data = ""
         self.encoded_data: List[int] = []
-        self.batch_size = 32  # the number of independent sequences will we process in parallel
-        self.block_size = 8  # maximum content length for predictions
+        self.batch_size = Constants.BATCH_SIZE
+        self.block_size = Constants.BLOCK_SIZE
         self.vocab_size = None
-        self.max_iters = 3000  # number of iterations to run training loop on
-        self.learning_rate = 1e-2
-        self.eval_interval = 300
-        self.device = 'cuda' if torch.cuda.is_available(
-        ) else 'cpu'  # allows to run on GPU if available
-        self.eval_iters = 200
+        self.max_iters = Constants.MAX_ITERS  
+        self.learning_rate = Constants.LEARNING_RATE
+        self.eval_interval = Constants.EVAL_INTERVAL
+        self.device = Utils.get_device()
+        self.eval_iters = Constants.EVAL_ITERS
+        self.number_of_embedding_dimensions = Constants.NUMBER_OF_EMBEDDING_DIMENSIONS
 
     def load_training_data(self):
         text = ''
